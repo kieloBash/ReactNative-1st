@@ -36,6 +36,7 @@ const MinerCard = ({
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
+        marginBottom: 4,
       }}
     >
       <MinerDetails {...miner} total={total} />
@@ -119,7 +120,16 @@ const MinerDetails = ({ name, free, cart, total, date }) => {
           color: colors.lightBlack,
         }}
       >
-        ₱{total?.toLocaleString()} - {free} free - {cart.length} items {formatDateToMMDDYYYY(date)}
+        ₱{total?.toLocaleString()} - {free} free - {cart.length} items
+      </Text>
+      <Text
+        style={{
+          fontSize: size.xs_text,
+          fontWeight: 400,
+          color: colors.lightBlack,
+        }}
+      >
+        {formatDateToMMDDYYYY(date)}
       </Text>
     </View>
   );

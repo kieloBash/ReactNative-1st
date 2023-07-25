@@ -207,7 +207,7 @@ const AddModal = ({ hideAddModal, handleAddMiner, minersName }) => {
               backgroundColor: colors.lightPink,
               justifyContent: "center",
               alignItems: "center",
-              borderRadius: "100%",
+              borderRadius: 100,
             }}
           >
             <Text style={{ color: "white" }}>+</Text>

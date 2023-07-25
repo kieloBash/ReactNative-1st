@@ -50,7 +50,7 @@ const Choice = ({ children, onPress, selected, data }) => {
             backgroundColor: colors.lightPink,
             width: 20,
             height: 20,
-            borderRadius: "100%",
+            borderRadius: 100,
             justifyContent: "center",
             alignItems: "center",
             padding: 2,
