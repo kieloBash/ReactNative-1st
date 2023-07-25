@@ -111,7 +111,28 @@ const useData = (hideAddModal) => {
         (txObj, error) => console.log(error);
     });
   }
-  return { data, handleAddMiner, handleDeleteMiner };
+
+  function handleChangeStatus(id, prevStatus) {
+    let status = prevStatus === "Pending" ? "Confirmed" : "Pending";
+    let indexToUpdate = 0;
+    data.forEach((miner, index) => {
+      if (miner.id === id) {
+        indexToUpdate = index;
+      }
+    });
+    let temp = [...data];
+    temp[indexToUpdate].status = status;
+    setData(temp);
+    db.transaction((tx) => {
+      tx.executeSql("UPDATE invoice SET status = ? WHERE id = ?", [status, id]),
+        (txObj, resultSet) => {
+          if (resultSet.rowsAffected > 0) {
+            console.log("Successfully Updated");
+          }
+        };
+    });
+  }
+  return { data, handleAddMiner, handleDeleteMiner, handleChangeStatus };
 };
 
 export default useData;

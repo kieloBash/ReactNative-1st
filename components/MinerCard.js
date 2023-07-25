@@ -14,12 +14,12 @@ import useData from "../hooks/useData";
 const MinerCard = ({
   miner,
   showEditModal,
-  handleChangeStatus,
+  // handleChangeStatus,
   handleSetToEditMiner,
   // handleDeleteMiner,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const { handleDeleteMiner } = useData();
+  const { handleDeleteMiner, handleChangeStatus } = useData();
   const total = useMemo(() => countTotal(), [miner.cart]);
 
   function countTotal() {
@@ -83,9 +83,9 @@ const MinerCard = ({
         }}
       >
         <TouchableOpacity
-          // onPress={() => {
-          //   handleChangeStatus(miner.id, miner.status);
-          // }}
+          onPress={() => {
+            handleChangeStatus(miner.id, miner.status);
+          }}
           style={{
             backgroundColor:
               miner.status === "Pending" ? colors.pending : colors.confirmed,
