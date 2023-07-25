@@ -15,6 +15,7 @@ const MainContents = ({
   return (
     <View style={styles.container}>
       <Categories
+        data={data}
         handleCategoryChange={handleCategoryChange}
         categorySelected={categorySelected}
       />
