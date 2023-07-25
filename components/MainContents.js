@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { colors, spacing, size } from "../constants";
 import Choice from "./Choice";
 import MinerCard from "./MinerCard";
+import useData from "../hooks/useData";
+import { ModalContext } from "./ModalContext";
+import AddModal from "./Modals/AddModal";
 
 const MainContents = () => {
-  const [data, setData] = useState([
-    { name: "Kielo", cart: [100, 200, 300], free: 2, status: "Pending" },
-    { name: "Liz", cart: [1200], free: 10, status: "Confirmed" },
-  ]);
+  const { data } = useData();
   return (
     <View style={styles.container}>
       <Categories />
@@ -36,7 +36,7 @@ const MainContents = () => {
               gap: spacing.l,
             }}
           >
-            {data ? (
+            {data && data?.length > 0 ? (
               <MinerList data={data} />
             ) : (
               <View

@@ -1,10 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { radius, size, spacing, colors } from "../constants";
 import SearchBar from "./SearchBar";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { ModalContext } from "./ModalContext";
 
 const Header = () => {
+  const { showAddModal } = useContext(ModalContext);
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -13,7 +16,7 @@ const Header = () => {
       </View>
       <View style={styles.inputsContainer}>
         <SearchBar />
-        <TouchableOpacity style={styles.headerBtn} onPress={() => {}}>
+        <TouchableOpacity style={styles.headerBtn} onPress={showAddModal}>
           <Ionicons
             name="person-add"
             size={size.icon}
