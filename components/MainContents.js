@@ -1,11 +1,9 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React, { useContext } from "react";
+import React from "react";
 import { colors, spacing, size } from "../constants";
 import Choice from "./Choice";
 import MinerCard from "./MinerCard";
 import useData from "../hooks/useData";
-import { ModalContext } from "./ModalContext";
-import AddModal from "./Modals/AddModal";
 
 const MainContents = () => {
   const { data } = useData();
@@ -86,7 +84,6 @@ const MinerList = ({ data }) => {
               //   showEditModal={showEditModal}
               //   handleChangeStatus={handleChangeStatus}
               //   handleSetToEditMiner={handleSetToEditMiner}
-              //   handleDeleteMiner={handleDeleteMiner}
             />
           </View>
         );

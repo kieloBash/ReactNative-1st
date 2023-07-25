@@ -10,15 +10,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import useData from "../hooks/useData";
 const MinerCard = ({
   miner,
   showEditModal,
   handleChangeStatus,
   handleSetToEditMiner,
-  handleDeleteMiner,
+  // handleDeleteMiner,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-
+  const { handleDeleteMiner } = useData();
   const total = useMemo(() => countTotal(), [miner.cart]);
 
   function countTotal() {
@@ -112,9 +113,9 @@ const MinerCard = ({
             <Fa name="edit" size={size.sm_icon} color={colors.black} />
           </TouchableOpacity>
           <TouchableOpacity
-          // onPress={() => {
-          //   handleDeleteMiner(miner.id);
-          // }}
+            onPress={() => {
+              handleDeleteMiner(miner.id);
+            }}
           >
             <MIcons name="delete" size={size.sm_icon} color={colors.black} />
           </TouchableOpacity>

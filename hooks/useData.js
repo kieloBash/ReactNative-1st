@@ -88,7 +88,30 @@ const useData = (hideAddModal) => {
       hideAddModal();
     });
   }
-  return { data, handleAddMiner };
+
+  function handleDeleteMiner(id) {
+    let toDeleteIndex = 0;
+    data.forEach((m, index) => {
+      if (m.id === id) {
+        toDeleteIndex = index;
+      }
+    });
+
+    let temp = [...data];
+    temp.splice(toDeleteIndex, 1);
+    setData(temp);
+
+    db.transaction((tx) => {
+      tx.executeSql("DELETE FROM invoice WHERE id = ?", [id]),
+        (txObj, resultSet) => {
+          if (resultSet.rowsAffected > 0) {
+            console.log("Successfully Deleted");
+          }
+        },
+        (txObj, error) => console.log(error);
+    });
+  }
+  return { data, handleAddMiner, handleDeleteMiner };
 };
 
 export default useData;
