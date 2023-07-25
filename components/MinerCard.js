@@ -4,6 +4,7 @@ import Fa from "react-native-vector-icons/FontAwesome";
 import MIcons from "react-native-vector-icons/MaterialIcons";
 import { Text, TouchableOpacity, View } from "react-native";
 import useData from "../hooks/useData";
+import { formatDateToMMDDYYYY } from "../helper";
 
 const MinerCard = ({
   miner,
@@ -98,7 +99,7 @@ const MinerCard = ({
   );
 };
 
-const MinerDetails = ({ name, free, cart, total }) => {
+const MinerDetails = ({ name, free, cart, total, date }) => {
   return (
     <View style={{ flexDirection: "column", width: "65%" }}>
       <Text
@@ -118,7 +119,7 @@ const MinerDetails = ({ name, free, cart, total }) => {
           color: colors.lightBlack,
         }}
       >
-        ₱{total?.toLocaleString()} - {free} free - {cart.length} items
+        ₱{total?.toLocaleString()} - {free} free - {cart.length} items {formatDateToMMDDYYYY(date)}
       </Text>
     </View>
   );

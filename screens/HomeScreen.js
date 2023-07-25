@@ -6,6 +6,7 @@ import MainContents from "../components/MainContents";
 import AddModal from "../components/Modals/AddModal";
 import EditModal from "../components/Modals/EditModal";
 import * as SQLite from "expo-sqlite";
+import { isDate7DaysOld } from "../helper";
 
 const HomeScreen = () => {
   const {
@@ -21,24 +22,28 @@ const HomeScreen = () => {
   const [minerToEdit, setMinertoEdit] = useState(null);
 
   useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS invoice (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, status TEXT, cart TEXT, date TEXT, free INTEGER)"
-      );
-    });
-
-    db.transaction((tx) => {
-      tx.executeSql("SELECT * FROM invoice", [], (_, { rows }) => {
-        const result = rows._array;
-        let tempData = [];
-        result.forEach((m) => {
-          let cart = JSON.parse(m.cart);
-          let date = JSON.parse(m.date);
-          tempData.push({ ...m, ["cart"]: cart, ["date"]: date });
-        });
-        setData(tempData);
+    if (data.length === 0) {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "CREATE TABLE IF NOT EXISTS invoice (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, status TEXT, cart TEXT, date TEXT, free INTEGER)"
+        );
       });
-    });
+
+      db.transaction((tx) => {
+        tx.executeSql("SELECT * FROM invoice", [], (_, { rows }) => {
+          const result = rows._array;
+          let tempData = [];
+          result.forEach((m) => {
+            let cart = JSON.parse(m.cart);
+            let date = JSON.parse(m.date);
+            const newDate = new Date(date);
+            if (!isDate7DaysOld(newDate) && m.status === "Confirmed")
+              tempData.push({ ...m, ["cart"]: cart, ["date"]: date });
+          });
+          setData(tempData);
+        });
+      });
+    }
   }, []);
   function getMinerDetails(id) {
     let mDetails = {};
