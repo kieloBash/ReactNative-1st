@@ -83,7 +83,7 @@ const AddModal = ({ hideAddModal, handleAddMiner, minersName }) => {
           >
             {activeName === 0 ? "New Miner" : "Existing Miner"}
           </Text>
-          {activeName === 0 && (
+          {/* {activeName === 0 && (
             <TouchableOpacity
               onPress={() => {
                 setActiveName(1);
@@ -95,7 +95,7 @@ const AddModal = ({ hideAddModal, handleAddMiner, minersName }) => {
                 Existing
               </Text>
             </TouchableOpacity>
-          )}
+          )} */}
         </View>
 
         <View
