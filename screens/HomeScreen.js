@@ -170,16 +170,27 @@ const HomeScreen = () => {
   }
 
   //
+  const [searchInput, setSearchInput] = useState("");
   const filteredData = useMemo(() => {
+    let filtered = data;
     if (categorySelected === "Pending") {
-      return data.filter((miner) => miner.status === "Pending");
+      filtered = filtered.filter((miner) => miner.status === "Pending");
     } else if (categorySelected === "Confirmed") {
-      return data.filter((miner) => miner.status === "Confirmed");
-    } else {
-      return data;
+      filtered = filtered.filter((miner) => miner.status === "Confirmed");
     }
-  }, [data, categorySelected]);
 
+    if (searchInput?.trim() !== "") {
+      filtered = filtered.filter((miner) =>
+        miner.name.toLowerCase().includes(searchInput?.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [data, categorySelected, searchInput]);
+
+  function handleOnChangeSearch(text) {
+    setSearchInput(text);
+  }
   useEffect(() => {
     console.log("render");
   }, [data]);
@@ -199,7 +210,10 @@ const HomeScreen = () => {
           data={minerToEdit}
         />
       )}
-      <Header />
+      <Header
+        searchInput={searchInput}
+        handleOnChangeSearch={handleOnChangeSearch}
+      />
       <MainContents
         handleSetToEditMiner={handleSetToEditMiner}
         data={filteredData}

@@ -5,17 +5,20 @@ import SearchBar from "./SearchBar";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ModalContext } from "./ModalContext";
 
-const Header = () => {
+const Header = ({ searchInput, handleOnChangeSearch }) => {
   const { showAddModal } = useContext(ModalContext);
-  
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Text>Hello</Text>
         <Text>World</Text>
-      </View>
+      </View> */}
       <View style={styles.inputsContainer}>
-        <SearchBar />
+        <SearchBar
+          searchInput={searchInput}
+          handleOnChangeSearch={handleOnChangeSearch}
+        />
         <TouchableOpacity style={styles.headerBtn} onPress={showAddModal}>
           <Ionicons
             name="person-add"

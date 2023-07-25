@@ -3,15 +3,15 @@ import React from "react";
 import { colors, radius, size, spacing } from "../constants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-const SearchBar = ({ searchMiner, setSearchMiner }) => {
+const SearchBar = ({ searchInput, handleOnChangeSearch }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity>
         <Ionicons name="ios-search" size={size.icon} color={colors.lightPink} />
       </TouchableOpacity>
       <TextInput
-        value={searchMiner}
-        onChangeText={setSearchMiner}
+        value={searchInput}
+        onChangeText={(text) => handleOnChangeSearch(text)}
         style={styles.inputContainer}
         placeholder="Search a miner"
         placeholderTextColor={colors.lightPink}
