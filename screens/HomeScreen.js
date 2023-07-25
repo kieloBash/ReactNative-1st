@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { ModalContext } from "../components/ModalContext";
 import Header from "../components/Header";
 import MainContents from "../components/MainContents";
@@ -163,6 +163,21 @@ const HomeScreen = () => {
   function handleCategoryChange(changeTo) {
     setCategorySelected(changeTo);
   }
+
+  //
+  const filteredData = useMemo(() => {
+    if (categorySelected === "Pending") {
+      return data.filter((miner) => miner.status === "Pending");
+    } else if (categorySelected === "Confirmed") {
+      return data.filter((miner) => miner.status === "Confirmed");
+    } else {
+      return data;
+    }
+  }, [data, categorySelected]);
+
+  useEffect(() => {
+    console.log("render");
+  }, [data]);
   return (
     <View style={styles.container}>
       {isAddModalVisible && (
@@ -182,7 +197,7 @@ const HomeScreen = () => {
       <Header />
       <MainContents
         handleSetToEditMiner={handleSetToEditMiner}
-        data={data}
+        data={filteredData}
         handleChangeStatus={handleChangeStatus}
         handleDeleteMiner={handleDeleteMiner}
         handleCategoryChange={handleCategoryChange}
