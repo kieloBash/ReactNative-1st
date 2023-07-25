@@ -1,15 +1,23 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
 import { colors, spacing, size } from "../constants";
-import Choice from "./Choice";
+import Categories from "./Categories";
 import MinerCard from "./MinerCard";
-import useData from "../hooks/useData";
 
-const MainContents = ({ handleSetToEditMiner }) => {
-  const { data } = useData();
+const MainContents = ({
+  handleSetToEditMiner,
+  data,
+  handleChangeStatus,
+  handleDeleteMiner,
+  handleCategoryChange,
+  categorySelected,
+}) => {
   return (
     <View style={styles.container}>
-      <Categories />
+      <Categories
+        handleCategoryChange={handleCategoryChange}
+        categorySelected={categorySelected}
+      />
       <ScrollableContainer scrollable={data?.length >= 5 ? true : false}>
         <View
           style={{
@@ -23,6 +31,8 @@ const MainContents = ({ handleSetToEditMiner }) => {
             <MinerList
               data={data}
               handleSetToEditMiner={handleSetToEditMiner}
+              handleChangeStatus={handleChangeStatus}
+              handleDeleteMiner={handleDeleteMiner}
             />
           ) : (
             <View
@@ -50,33 +60,12 @@ const MainContents = ({ handleSetToEditMiner }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 40,
-    padding: spacing.l,
-    width: "100%",
-    height: "100%",
-  },
-});
-
-const Categories = () => {
-  return (
-    <View
-      style={{
-        width: "100%",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <Choice>All</Choice>
-      <Choice>Pending</Choice>
-      <Choice>Confirmed</Choice>
-    </View>
-  );
-};
-
-const MinerList = ({ data, handleSetToEditMiner }) => {
+const MinerList = ({
+  data,
+  handleSetToEditMiner,
+  handleChangeStatus,
+  handleDeleteMiner,
+}) => {
   return (
     <>
       {data?.map((miner, index) => {
@@ -84,8 +73,8 @@ const MinerList = ({ data, handleSetToEditMiner }) => {
           <View key={index}>
             <MinerCard
               miner={miner}
-              //   showEditModal={showEditModal}
-              //   handleChangeStatus={handleChangeStatus}
+              handleDeleteMiner={handleDeleteMiner}
+              handleChangeStatus={handleChangeStatus}
               handleSetToEditMiner={handleSetToEditMiner}
             />
           </View>
@@ -118,5 +107,14 @@ const ScrollableContainer = ({ children, scrollable }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 40,
+    padding: spacing.l,
+    width: "100%",
+    height: "100%",
+  },
+});
 
 export default MainContents;

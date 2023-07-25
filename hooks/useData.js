@@ -52,7 +52,7 @@ const useData = (hideAddModal, hideEditModal) => {
         // }
       });
     });
-  }, [data]);
+  }, []);
 
   function handleAddMiner(arr) {
     console.log("Added Successfully");

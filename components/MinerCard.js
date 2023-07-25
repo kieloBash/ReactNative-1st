@@ -5,8 +5,13 @@ import MIcons from "react-native-vector-icons/MaterialIcons";
 import { Text, TouchableOpacity, View } from "react-native";
 import useData from "../hooks/useData";
 
-const MinerCard = ({ miner, handleSetToEditMiner }) => {
-  const { handleDeleteMiner, handleChangeStatus, handleEditminer } = useData();
+const MinerCard = ({
+  miner,
+  handleSetToEditMiner,
+  handleChangeStatus,
+  handleDeleteMiner,
+}) => {
+  // const { handleDeleteMiner, handleChangeStatus, handleEditminer } = useData();
   const total = useMemo(() => countTotal(), [miner.cart]);
 
   function countTotal() {
