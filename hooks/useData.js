@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as SQLite from "expo-sqlite";
 
-const useData = (hideAddModal) => {
+const useData = (hideAddModal, hideEditModal) => {
   const [data, setData] = useState([]);
 
   const db = SQLite.openDatabase("invoice2.db");
@@ -23,7 +23,7 @@ const useData = (hideAddModal) => {
           tempData.push({ ...m, ["cart"]: cart, ["date"]: date });
         });
         setData(tempData);
-        // setAllData(tempData);
+        // setdata(tempData);
         // setCurrentMiners(tempData);
         // getMinersName(tempData);
 
@@ -132,7 +132,54 @@ const useData = (hideAddModal) => {
         };
     });
   }
-  return { data, handleAddMiner, handleDeleteMiner, handleChangeStatus };
+
+  function handleEditminer(id, arr) {
+    let indexToUpdate = 0;
+    data.forEach((m, index) => {
+      if (m.id === id) {
+        indexToUpdate = index;
+      }
+    });
+    let temp = [...data];
+    const { name, free, cart } = arr;
+    const cartString = JSON.stringify(cart);
+    temp[indexToUpdate].cart = cart;
+    temp[indexToUpdate].free = free;
+    temp[indexToUpdate].name = name;
+
+    db.transaction((tx) => {
+      tx.executeSql(
+        "UPDATE invoice SET name = ?, free = ?, cart = ? WHERE id = ?",
+        [name, free, cartString, id]
+      ),
+        (txObj, resultSet) => {
+          if (resultSet.rowsAffected > 0) {
+            console.log("Successfully Updated");
+          }
+        };
+    });
+    setData(temp);
+    hideEditModal();
+  }
+
+  function getMinerDetails(id) {
+    let mDetails = {};
+    data?.forEach((m) => {
+      if (m.id === id) {
+        mDetails = m;
+      }
+    });
+    return mDetails;
+  }
+
+  return {
+    data,
+    handleAddMiner,
+    handleDeleteMiner,
+    handleChangeStatus,
+    handleEditminer,
+    getMinerDetails,
+  };
 };
 
 export default useData;

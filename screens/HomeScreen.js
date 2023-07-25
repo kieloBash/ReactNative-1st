@@ -1,14 +1,33 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ModalContext } from "../components/ModalContext";
 import Header from "../components/Header";
 import MainContents from "../components/MainContents";
 import AddModal from "../components/Modals/AddModal";
 import useData from "../hooks/useData";
+import EditModal from "../components/Modals/EditModal";
 
 const HomeScreen = ({ children }) => {
-  const { isAddModalVisible, hideAddModal } = useContext(ModalContext);
-  const { handleAddMiner } = useData(hideAddModal);
+  const {
+    isAddModalVisible,
+    hideAddModal,
+    isEditModalVisible,
+    hideEditModal,
+    showEditModal,
+  } = useContext(ModalContext);
+
+  const { handleAddMiner, handleEditminer, getMinerDetails } = useData(
+    hideAddModal,
+    hideEditModal
+  );
+
+  const [minerToEdit, setMinertoEdit] = useState(null);
+
+  function handleSetToEditMiner(id) {
+    const miner = getMinerDetails(id);
+    setMinertoEdit(miner);
+    showEditModal();
+  }
 
   return (
     <View style={styles.container}>
@@ -19,8 +38,15 @@ const HomeScreen = ({ children }) => {
           minersName={"Kielo"}
         />
       )}
+      {isEditModalVisible && (
+        <EditModal
+          hideEditModal={hideEditModal}
+          handleEditminer={handleEditminer}
+          data={minerToEdit}
+        />
+      )}
       <Header />
-      <MainContents />
+      <MainContents handleSetToEditMiner={handleSetToEditMiner} />
     </View>
   );
 };

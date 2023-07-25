@@ -2,24 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import { colors, formatDate, radius, size, spacing } from "../constants";
 import Fa from "react-native-vector-icons/FontAwesome";
 import MIcons from "react-native-vector-icons/MaterialIcons";
-import {
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import useData from "../hooks/useData";
-const MinerCard = ({
-  miner,
-  showEditModal,
-  // handleChangeStatus,
-  handleSetToEditMiner,
-  // handleDeleteMiner,
-}) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const { handleDeleteMiner, handleChangeStatus } = useData();
+
+const MinerCard = ({ miner, handleSetToEditMiner }) => {
+  const { handleDeleteMiner, handleChangeStatus, handleEditminer } = useData();
   const total = useMemo(() => countTotal(), [miner.cart]);
 
   function countTotal() {
@@ -45,32 +32,6 @@ const MinerCard = ({
         elevation: 3,
       }}
     >
-      {/* <Modal
-        visible={modalVisible}
-        animationType="fade"
-        transparent={true}
-        style={{ flex: 1, position: "relative" }}
-      >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "flex-start",
-            alignItems: "center",
-            paddingTop: 60,
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: "white",
-              borderRadius: radius.l,
-              padding: spacing.l,
-            }}
-          >
-            <Text>Copied Successfully!</Text>
-          </View>
-        </View>
-      </Modal> */}
-
       <MinerDetails {...miner} total={total} />
 
       <View
@@ -107,9 +68,7 @@ const MinerCard = ({
           </Text>
         </TouchableOpacity>
         <View style={{ flexDirection: "row", gap: spacing.m }}>
-          <TouchableOpacity
-          // onPress={() => handleSetToEditMiner(miner.id)}
-          >
+          <TouchableOpacity onPress={() => handleSetToEditMiner(miner.id)}>
             <Fa name="edit" size={size.sm_icon} color={colors.black} />
           </TouchableOpacity>
           <TouchableOpacity

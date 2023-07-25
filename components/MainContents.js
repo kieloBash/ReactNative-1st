@@ -5,7 +5,7 @@ import Choice from "./Choice";
 import MinerCard from "./MinerCard";
 import useData from "../hooks/useData";
 
-const MainContents = () => {
+const MainContents = ({ handleSetToEditMiner }) => {
   const { data } = useData();
   return (
     <View style={styles.container}>
@@ -20,7 +20,10 @@ const MainContents = () => {
           }}
         >
           {data && data?.length > 0 ? (
-            <MinerList data={data} />
+            <MinerList
+              data={data}
+              handleSetToEditMiner={handleSetToEditMiner}
+            />
           ) : (
             <View
               style={{
@@ -73,7 +76,7 @@ const Categories = () => {
   );
 };
 
-const MinerList = ({ data }) => {
+const MinerList = ({ data, handleSetToEditMiner }) => {
   return (
     <>
       {data?.map((miner, index) => {
@@ -83,7 +86,7 @@ const MinerList = ({ data }) => {
               miner={miner}
               //   showEditModal={showEditModal}
               //   handleChangeStatus={handleChangeStatus}
-              //   handleSetToEditMiner={handleSetToEditMiner}
+              handleSetToEditMiner={handleSetToEditMiner}
             />
           </View>
         );
