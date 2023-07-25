@@ -3,7 +3,7 @@ import { colors, formatDate, radius, size, spacing } from "../constants";
 import Fa from "react-native-vector-icons/FontAwesome";
 import MIcons from "react-native-vector-icons/MaterialIcons";
 import { Text, TouchableOpacity, View } from "react-native";
-import useData from "../hooks/useData";
+import * as Clipboard from "expo-clipboard";
 import { formatDateToMMDDYYYY } from "../helper";
 
 const MinerCard = ({
@@ -22,6 +22,15 @@ const MinerCard = ({
     });
     return totalPrice;
   }
+  const copyToClipboard = async () => {
+    const stringTOCopy = `${miner?.name}: ${miner?.cart.length} items | ${
+      miner.free > 0 ? miner.free + " free" : ""
+    }\n${miner.cart.join("+")} = ${total}\n${formatDateToMMDDYYYY(
+      miner.date
+    )}\nThank you very much sis!
+    `;
+    await Clipboard.setStringAsync(stringTOCopy);
+  };
 
   return (
     <View
@@ -85,9 +94,7 @@ const MinerCard = ({
           >
             <MIcons name="delete" size={size.sm_icon} color={colors.black} />
           </TouchableOpacity>
-          <TouchableOpacity
-          // onPress={handleCopy}
-          >
+          <TouchableOpacity onPress={copyToClipboard}>
             <MIcons
               name="content-copy"
               size={size.sm_icon}
