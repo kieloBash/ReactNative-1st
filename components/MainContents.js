@@ -12,55 +12,39 @@ const MainContents = () => {
   return (
     <View style={styles.container}>
       <Categories />
-      <View
-        style={{
-          width: "100%",
-          height: 520,
-          marginTop: spacing.l,
-        }}
-      >
-        <ScrollView
+      <ScrollableContainer scrollable={data?.length >= 5 ? true : false}>
+        <View
           style={{
             width: "100%",
             height: "100%",
-            marginTop: spacing.l,
+            flexDirection: "column",
+            gap: spacing.l,
           }}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={data?.length >= 5 ? true : false}
         >
-          <View
-            style={{
-              width: "100%",
-              height: "100%",
-              flexDirection: "column",
-              gap: spacing.l,
-            }}
-          >
-            {data && data?.length > 0 ? (
-              <MinerList data={data} />
-            ) : (
-              <View
+          {data && data?.length > 0 ? (
+            <MinerList data={data} />
+          ) : (
+            <View
+              style={{
+                width: "100%",
+                height: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  fontSize: size.sm_text,
+                  color: colors.black,
+                  fontWeight: 300,
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: size.sm_text,
-                    color: colors.black,
-                    fontWeight: 300,
-                  }}
-                >
-                  No Miners
-                </Text>
-              </View>
-            )}
-          </View>
-        </ScrollView>
-      </View>
+                No Miners
+              </Text>
+            </View>
+          )}
+        </View>
+      </ScrollableContainer>
     </View>
   );
 };
@@ -108,6 +92,30 @@ const MinerList = ({ data }) => {
         );
       })}
     </>
+  );
+};
+
+const ScrollableContainer = ({ children, scrollable }) => {
+  return (
+    <View
+      style={{
+        width: "100%",
+        height: 520,
+        marginTop: spacing.l,
+      }}
+    >
+      <ScrollView
+        style={{
+          width: "100%",
+          height: "100%",
+          marginTop: spacing.l,
+        }}
+        showsVerticalScrollIndicator={false}
+        scrollEnabled={scrollable}
+      >
+        {children}
+      </ScrollView>
+    </View>
   );
 };
 
