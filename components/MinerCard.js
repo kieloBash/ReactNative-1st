@@ -23,12 +23,17 @@ const MinerCard = ({
     return totalPrice;
   }
   const copyToClipboard = async () => {
-    const stringTOCopy = `${miner?.name}: ${miner?.cart.length} items | ${
+    const totalCartItems =
+      miner.cart.length > 1 ? miner.cart.join("+") + " = " + total : total;
+    const stringTOCopy = `${miner?.name}: ${
+      miner?.cart.length > 1
+        ? miner.cart.length + " items"
+        : miner.cart.length + " item"
+    } | ${
       miner.free > 0 ? miner.free + " free" : ""
-    }\n${miner.cart.join("+")} = ${total}\n${formatDateToMMDDYYYY(
+    }\n${totalCartItems}\n${formatDateToMMDDYYYY(
       miner.date
-    )}\nThank you very much sis!
-    `;
+    )}\nThank you very much sis!`;
     await Clipboard.setStringAsync(stringTOCopy);
   };
 
